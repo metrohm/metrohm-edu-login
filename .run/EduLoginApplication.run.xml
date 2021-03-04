@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="EduLoginApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="edu-login.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.metrohm.edulogin.EduLoginApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateResources" />
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateResources" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
