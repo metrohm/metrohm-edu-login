@@ -1,5 +1,6 @@
-package com.metrohm.edulogin;
+package com.metrohm.edulogin.controller;
 
+import com.metrohm.edulogin.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

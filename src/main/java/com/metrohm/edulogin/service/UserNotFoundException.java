@@ -1,4 +1,4 @@
-package com.metrohm.edulogin;
+package com.metrohm.edulogin.service;
 
 /**
  * exception for unknown user.

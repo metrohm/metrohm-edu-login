@@ -1,4 +1,4 @@
-package com.metrohm.edulogin;
+package com.metrohm.edulogin.model;
 
 import java.time.LocalDate;
 

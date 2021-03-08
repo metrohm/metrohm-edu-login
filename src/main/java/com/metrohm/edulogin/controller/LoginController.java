@@ -1,5 +1,9 @@
-package com.metrohm.edulogin;
+package com.metrohm.edulogin.controller;
 
+import com.metrohm.edulogin.model.User;
+import com.metrohm.edulogin.service.UserNotFoundException;
+import com.metrohm.edulogin.service.UserService;
+import com.metrohm.edulogin.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
+	UserService userService = new UserServiceImpl();
+
 	@GetMapping("/login")
 	public String showLogin() {
 		return "login";
@@ -27,8 +33,13 @@ public class LoginController {
 			@ModelAttribute("password") String password,
 			HttpServletRequest request) {
 
-		//todo ask userservice for user
 		User user = null;
+		try {
+			user = userService.loadUser(username, password);
+		} catch (UserNotFoundException e) {
+			//todo show error message
+			e.printStackTrace();
+		}
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
 			return "redirect:/profile";
