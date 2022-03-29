@@ -16,13 +16,12 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 	@Test
 	public void loadUser() throws Exception {
-		//given
-		UserServiceImpl userService = new UserServiceImpl();
 		//create mock
 		PasswordService passwordService = mock(PasswordService.class);
+		//given
+		UserServiceImpl userService = new UserServiceImpl(passwordService);
 		//record behavior
 		when(passwordService.isValidPassword("bertold", "pw")).thenReturn(true);
-		userService.setPasswordService(passwordService);
 		//when
 		User user = userService.loadUser("bertold", "pw");
 		//then
@@ -32,12 +31,10 @@ class UserServiceTest {
 
 	@Test
 	public void loadUserUnknown() throws Exception {
-		//given
-		UserServiceImpl userService = new UserServiceImpl();
 		//create mock
 		PasswordService passwordService = mock(PasswordService.class);
-		//record behavior
-		userService.setPasswordService(passwordService);
+		//given
+		UserServiceImpl userService = new UserServiceImpl(passwordService);
 		//when
 		assertThrows(UserNotFoundException.class, ()->userService.loadUser("not-known", "pw"));
 		//then
@@ -46,13 +43,12 @@ class UserServiceTest {
 
 	@Test
 	public void loadUserWrongPassword() throws Exception {
-		//given
-		UserServiceImpl userService = new UserServiceImpl();
 		//create mock
 		PasswordService passwordService = mock(PasswordService.class);
+		//given
+		UserServiceImpl userService = new UserServiceImpl(passwordService);
 		//record behavior
 		when(passwordService.isValidPassword("bertold", "pw")).thenReturn(false);
-		userService.setPasswordService(passwordService);
 		//when
 		assertThrows(InvalidPasswordException.class, ()->userService.loadUser("bertold", "pw"));
 		//then

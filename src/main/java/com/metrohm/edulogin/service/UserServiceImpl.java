@@ -1,6 +1,8 @@
 package com.metrohm.edulogin.service;
 
 import com.metrohm.edulogin.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,12 +12,15 @@ import java.util.Map;
 /**
  * handle user actions.
  */
+@Service
 public class UserServiceImpl implements UserService{
 
     protected Map<String, User> users = new HashMap<>();
-    protected PasswordService passwordService = new PasswordServiceImpl();
+    protected final PasswordService passwordService;
 
-    public UserServiceImpl() {
+    @Autowired
+    public UserServiceImpl(PasswordService passwordService) {
+        this.passwordService = passwordService;
         User bertold = new User();
         bertold.setUserName("bertold");
         bertold.setBirthDate(LocalDate.of(1955, Month.MARCH, 1));
@@ -37,9 +42,5 @@ public class UserServiceImpl implements UserService{
             throw new InvalidPasswordException(userName);
         }
         return users.get(userName);
-    }
-
-    public void setPasswordService(PasswordService passwordService) {
-        this.passwordService = passwordService;
     }
 }

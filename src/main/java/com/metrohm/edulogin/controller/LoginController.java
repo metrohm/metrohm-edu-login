@@ -4,7 +4,7 @@ import com.metrohm.edulogin.model.User;
 import com.metrohm.edulogin.service.InvalidPasswordException;
 import com.metrohm.edulogin.service.UserNotFoundException;
 import com.metrohm.edulogin.service.UserService;
-import com.metrohm.edulogin.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-	UserService userService = new UserServiceImpl();
+	protected final UserService userService;
+
+	@Autowired
+	public LoginController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@GetMapping("/login")
 	public String showLogin(@RequestParam(name = "errorMessage", required = false) String errorMessage,
