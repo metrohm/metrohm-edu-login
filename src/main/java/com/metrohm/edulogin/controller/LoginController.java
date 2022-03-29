@@ -1,13 +1,16 @@
 package com.metrohm.edulogin.controller;
 
 import com.metrohm.edulogin.model.User;
+import com.metrohm.edulogin.service.InvalidPasswordException;
 import com.metrohm.edulogin.service.UserNotFoundException;
 import com.metrohm.edulogin.service.UserService;
 import com.metrohm.edulogin.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +26,9 @@ public class LoginController {
 	UserService userService = new UserServiceImpl();
 
 	@GetMapping("/login")
-	public String showLogin() {
+	public String showLogin(@RequestParam(name = "errorMessage", required = false) String errorMessage,
+	                        Model model) {
+		model.addAttribute("errorMessage", errorMessage);
 		return "login";
 	}
 
@@ -31,19 +36,19 @@ public class LoginController {
 	public String login(
 			@ModelAttribute("username") String username,
 			@ModelAttribute("password") String password,
-			HttpServletRequest request) {
+			HttpServletRequest request,
+			Model model) {
 
 		User user = null;
 		try {
 			user = userService.loadUser(username, password);
-		} catch (UserNotFoundException e) {
-			//todo show error message
-			e.printStackTrace();
+		} catch (UserNotFoundException | InvalidPasswordException e) {
+			return showLogin("invalid username or password", model);
 		}
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
 			return "redirect:/profile";
 		}
-		return showLogin();
+		return showLogin(null, model);
 	}
 }
